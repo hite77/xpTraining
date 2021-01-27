@@ -54,18 +54,18 @@ void WhenPlayer1ShowsScissorsAndPlayer2ShowsPaperOutcomeIsPlayer1Wins() {
 	assertEquals(Outcome.Player1Wins, outcome);
 }
 
-//	@Test
-//	void WhenPlayer1ShowsScissorsAndPlayer2ShowsPaperOutcomeIsPlayer1Wins() {
-//		game = new Game();
-//
-//		Player player1 = new Player();
-//		Player player2 = new Player();
-//
-//		player1.play = Moves.Scissors;
-//		player2.play = Moves.Paper;
-//
-//		Outcome outcome = game.outcome(player1, player2);
-//
-//		assertEquals(Outcome.Player1Wins, outcome);
-//	}
+	@Test
+	void WhenPlayer1ShowsRockAndPlayer2ShowsPaperOutcomeIsPlayer2Wins() {
+		game = new Game();
+
+		Player player1 = new Player();
+		Player player2 = new Player();
+
+		player1.play = Moves.Rock;
+		player2.play = Moves.Paper;
+
+		Outcome outcome = game.outcome(player1, player2);
+
+		assertEquals(Outcome.Player2Wins, outcome);
+	}
 }
