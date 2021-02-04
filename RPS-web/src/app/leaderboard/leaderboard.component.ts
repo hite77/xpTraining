@@ -19,7 +19,6 @@ export class LeaderboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    
     this.getPlayerStats();
   }
 
@@ -38,11 +37,20 @@ export class LeaderboardComponent implements OnInit {
     this.playerStats = [];
     this.gameGateway.getPlayerStats().subscribe(returnedPlayerStats => {
       for(let i = 0; i < returnedPlayerStats.length; i++) {
-        this.playerStats.push(returnedPlayerStats[i]);
+        console.log(returnedPlayerStats[i].winPercentage);
+        this.playerStats.push(this.roundToOneDecimal(returnedPlayerStats[i]));
       }
       // this.playerList = this.playerList.sort((a,b) => a.name.localeCompare(b.name));
       console.log('got player Stats', this.playerStats);
     });
+  }
+
+  roundToOneDecimal(playerStat: PlayerStat) {
+    playerStat.winPercentage = Math.round(playerStat.winPercentage * 10) / 10;
+    playerStat.rockPercent = Math.round(playerStat.rockPercent * 10) / 10;
+    playerStat.paperPercent = Math.round(playerStat.paperPercent * 10) / 10;
+    playerStat.scissorsPercent = Math.round(playerStat.scissorsPercent * 10) / 10;
+    return playerStat;
   }
 
   getGameRecords(){
