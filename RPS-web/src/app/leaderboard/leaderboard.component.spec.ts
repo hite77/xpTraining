@@ -171,4 +171,27 @@ describe('LeaderboardComponent', () => {
       expect(row3.cells[5].innerHTML).toBe('3');
     });
   });
+
+  it('leaderboard header contains: Leader Board', () => {
+    expect(component).toBeTruthy();
+    const header = fixture.nativeElement.querySelector('.page-header');
+    expect(header.innerHTML).toBe('LEADER BOARD');
+  });
+
+  it('leaderboard header contains: Player 1, Winning Percentage: 50%, Rock Percentage: 50%, Paper Percentage: 25%, Scissors Percentage: 25%', () => {
+    expect(component).toBeTruthy();
+    stubRpsGateway.playerStats[0].winPercentage = 50;
+    stubRpsGateway.playerStats[0].rockPercent = 50;
+    stubRpsGateway.playerStats[0].paperPercent = 25;
+    stubRpsGateway.playerStats[0].scissorsPercent = 25;
+    const player = fixture.nativeElement.querySelector('button');
+    console.log('Button', player);
+    player.click();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const header = fixture.nativeElement.querySelector('.page-header');
+      expect(header.innerHTML).toBe('Player 1, Winning Percentage: 50%, Rock Percentage: 50%, ' +
+          'Paper Percentage: 25%, Scissors Percentage: 25%');
+    });
+  });
 });
