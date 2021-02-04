@@ -69,7 +69,7 @@ describe('LeaderboardComponent', () => {
       expect(row1.cells[1].innerHTML).toBe('WON');
       expect(row1.cells[2].innerHTML).toBe('ROCK');
       expect(row1.cells[3].innerHTML).toBe('SCISSORS');
-      
+
     });
   });
 
@@ -97,7 +97,7 @@ describe('LeaderboardComponent', () => {
       expect(row1.cells[1].innerHTML).toBe('95');
       expect(row1.cells[3].innerHTML).toBe('11');
       expect(row1.cells[6].innerHTML).toBe('80');
-      
+
     });
   });
 
@@ -145,5 +145,30 @@ describe('LeaderboardComponent', () => {
       expect(row3.cells[7].innerHTML).toBe('44.3');
       expect(row3.cells[8].innerHTML).toBe('44.4');
   });
+  });
+
+  it('leaderboard percentages should only show one decimal place', () => {
+    expect(component).toBeTruthy();
+
+    stubRpsGateway.playerStats[0].gamesTied = 1;
+    stubRpsGateway.playerStats[1].gamesTied = 2;
+    stubRpsGateway.playerStats[2].gamesTied = 3;
+
+    const refresh = fixture.nativeElement.querySelector('button.refresh');
+    console.log('Button', refresh);
+    refresh.click();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const tableRows = fixture.nativeElement.querySelectorAll('tr');
+      console.log('tableRows: ', tableRows);
+      const row1 = tableRows[1];
+      expect(row1.cells[5].innerHTML).toBe('1');
+
+      const row2 = tableRows[2];
+      expect(row2.cells[5].innerHTML).toBe('2');
+
+      const row3 = tableRows[3];
+      expect(row3.cells[5].innerHTML).toBe('3');
+    });
   });
 });
