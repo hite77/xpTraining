@@ -51,7 +51,9 @@
     <ng-container >
       <tr *ngFor="let gameRecord of gameRecords"  >
         <td>{{gameRecord.opponent.name}}</td>
-        <td>{{gameRecord.result}}</td>
+        <td *ngIf="gameRecord.result === 'WON'" style="color:green">{{gameRecord.result}}</td>
+        <td *ngIf="gameRecord.result === 'LOSS'" style="color:red">{{gameRecord.result}}</td>
+        <td *ngIf="gameRecord.result === 'TIE'" style="color:lightblue">{{gameRecord.result}}</td>
         <td>{{gameRecord.playerThrow}}</td>
         <td>{{gameRecord.opponentThrow}}</td>
       </tr>

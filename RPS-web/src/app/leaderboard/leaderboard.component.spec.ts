@@ -6,6 +6,7 @@ import { GameGateway } from '../game/game.gateway';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import {GameRecord, Player, Result, Throw} from '../game/game';
 
 describe('LeaderboardComponent', () => {
   let component: LeaderboardComponent;
@@ -212,6 +213,28 @@ describe('LeaderboardComponent', () => {
       const header = fixture.nativeElement.querySelector('.page-header');
       expect(header.innerHTML).toBe('Player 2, Winning Percentage: 55%, Rock Percentage: 75%, ' +
           'Paper Percentage: 33%, Scissors Percentage: 42%');
+    });
+  });
+
+  it('In leaderboard player profile, Wins are color coded in Green, the Loses are Red and the Ties are Light Blue', () => {
+    expect(component).toBeTruthy();
+    stubRpsGateway.gameStats = [];
+    stubRpsGateway.gameStats.push(new GameRecord( 1, new Player('Player 1', 1 ),
+        new Player('Player 2', 2 ), Result.Won, Throw.Rock, Throw.Scissors));
+    stubRpsGateway.gameStats.push(new GameRecord( 2, new Player('Player 1', 1 ),
+        new Player('Player 2', 2 ), Result.Loss, Throw.Rock, Throw.Paper));
+    stubRpsGateway.gameStats.push(new GameRecord( 3, new Player('Player 1', 1 ),
+        new Player('Player 3', 3 ), Result.Tie, Throw.Rock, Throw.Rock));
+    const player = fixture.nativeElement.querySelectorAll('button');
+    console.log('Button', player);
+    player[0].click();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const tableRows = fixture.nativeElement.querySelectorAll('tr');
+      expect(tableRows[1].cells[1].style.color).toBe('green');
+      expect(tableRows[2].cells[1].style.color).toBe('red');
+      expect(tableRows[3].cells[1].style.color).toBe('lightblue');
     });
   });
 });
