@@ -121,7 +121,7 @@ describe('GameComponent', () => {
       expect(stubRpsGateway.playGameCalledWith.player2Throw).toBe('ROCK');
       expect(stubRpsGateway.playGameCalledWith.player2.name).toBe('Player 3');
       expect(stubRpsGateway.playGameCalledWith.player2.id).toBe(3);
-      expect(fixture.nativeElement.querySelector('#game-outcome').innerHTML).toContain(stubRpsGateway.stubOutcome);
+      expect(fixture.nativeElement.querySelector('#game-outcome').innerHTML).toContain('Player 3 Wins');
     });
   }));
 
@@ -142,7 +142,7 @@ describe('GameComponent', () => {
     });
   }));
 
-  it('should disable submit button on page load for both cases', () =>{
+  it('should disable submit button on page load for both cases', () => {
     const submitRanked  = fixture.nativeElement.querySelector('#submit-ranked');
     const submitPractice = fixture.nativeElement.querySelector('#submit-practice');
     expect(submitRanked.disabled).toBeTruthy();
@@ -154,5 +154,53 @@ describe('GameComponent', () => {
     const submitPracticeFlipped = fixture.nativeElement.querySelector('#submit-practice');
     expect(submitPracticeFlipped.disabled).toBeTruthy();
     expect(submitRankedFlipped).toBeFalsy();
-  })
+  });
+
+  it('when Player 1 wins the result is displayed as: Player 1 Wins', () => {
+
+    // Setup here still needed
+    component.ngOnInit();
+    component.isPracticeGame = false;
+    fixture.detectChanges();
+
+    stubRpsGateway.stubOutcome = Outcome.P1Wins;
+
+    triggerMatSelect('player1Name', 0);
+    triggerMatSelect('player2Name', 2);
+    triggerMatSelect('player1Throw', 3);
+    triggerMatSelect('player2Throw', 1);
+
+    const submit = fixture.nativeElement.querySelector('#submit-ranked');
+    submit.click();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('#game-outcome').innerHTML).toContain('Player 1 Wins');
+    });
+
+  });
+
+  it('when the game is a tie, the app displays: The game is a Tie', () => {
+
+    // Setup here still needed
+    component.ngOnInit();
+    component.isPracticeGame = false;
+    fixture.detectChanges();
+
+    stubRpsGateway.stubOutcome = Outcome.Tie;
+
+    triggerMatSelect('player1Name', 0);
+    triggerMatSelect('player2Name', 2);
+    triggerMatSelect('player1Throw', 3);
+    triggerMatSelect('player2Throw', 1);
+
+    const submit = fixture.nativeElement.querySelector('#submit-ranked');
+    submit.click();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(fixture.nativeElement.querySelector('#game-outcome').innerHTML).toContain('The game is a Tie');
+    });
+
+  });
 });

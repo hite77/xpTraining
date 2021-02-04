@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Player, Throw, throwLocalization } from './game';
-import { HttpGameGateway } from './http.game.gateway';
-import { PlayGameRequest, PlayPracticeGameRequest, GameGateway } from './game.gateway';
-import { MatDialog } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Outcome, Player, Throw, throwLocalization} from './game';
+import {GameGateway, PlayGameRequest, PlayPracticeGameRequest} from './game.gateway';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 
 @Component({
@@ -67,10 +65,15 @@ export class GameComponent implements OnInit, OnDestroy {
 
   processRankedGame() {
     this.mostRecentOutcome = '';
-    this.rankedGameRequest = new PlayGameRequest(this.getValue('selectedPlayer1'), this.getValue('selectedPlayer2'), this.getValue('player1Throw'), this.getValue('player2Throw'));
+    this.rankedGameRequest = new PlayGameRequest(this.getValue('selectedPlayer1'), this.getValue('selectedPlayer2'),
+        this.getValue('player1Throw'), this.getValue('player2Throw'));
 
     this.gameGateway.playGame(this.rankedGameRequest).pipe(takeUntil(this._destroy)).subscribe(gameResult => {
-      this.mostRecentOutcome = gameResult.outcome;
+     if (gameResult.outcome === Outcome.P1Wins) {
+        this.mostRecentOutcome = gameResult.player1.name + ' Wins';
+      } else {
+        this.mostRecentOutcome = gameResult.player2.name + ' Wins';
+      }
     });
   }
 
