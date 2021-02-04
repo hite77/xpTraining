@@ -22,10 +22,10 @@ export class LeaderboardComponent implements OnInit {
     this.getPlayerStats();
   }
 
-  showPlayer( playerId: number ){
+  showPlayer( playerId: number ) {
     console.log('Click - Player: ', playerId );
     this.selectedPlayer = playerId;
-    if( playerId === -1 ) {
+    if ( playerId === -1 ) {
       this.getPlayerStats();
     } else {
       this.getGameRecords();
@@ -36,7 +36,7 @@ export class LeaderboardComponent implements OnInit {
   getPlayerStats() {
     this.playerStats = [];
     this.gameGateway.getPlayerStats().subscribe(returnedPlayerStats => {
-      for(let i = 0; i < returnedPlayerStats.length; i++) {
+      for (let i = 0; i < returnedPlayerStats.length; i++) {
         console.log(returnedPlayerStats[i].winPercentage);
         this.playerStats.push(this.roundToOneDecimal(returnedPlayerStats[i]));
       }
@@ -53,10 +53,10 @@ export class LeaderboardComponent implements OnInit {
     return playerStat;
   }
 
-  getGameRecords(){
+  getGameRecords() {
     this.gameRecords = [];
     this.gameGateway.getPlayerGameRecords( this.selectedPlayer).subscribe(returnedGameRecords => {
-      for(let i = 0; i < returnedGameRecords.length; i++) {
+      for (let i = 0; i < returnedGameRecords.length; i++) {
         this.gameRecords.push(returnedGameRecords[i]);
       }
       // this.playerList = this.playerList.sort((a,b) => a.name.localeCompare(b.name));
@@ -64,4 +64,16 @@ export class LeaderboardComponent implements OnInit {
     });
   }
 
+  getPlayerDescriptionHeader(): string {
+    for (const playerStat of this.playerStats) {
+      if (playerStat.player.id === this.selectedPlayer) {
+        return playerStat.player.name +
+            ', Winning Percentage: ' + playerStat.winPercentage +
+            '%, Rock Percentage: ' + playerStat.rockPercent +
+            '%, Paper Percentage: ' + playerStat.paperPercent +
+            '%, Scissors Percentage: ' + playerStat.scissorsPercent + '%';
+      }
+    }
+    return 'not found';
+  }
 }

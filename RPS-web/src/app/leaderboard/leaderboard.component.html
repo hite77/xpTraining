@@ -1,6 +1,6 @@
 <div class="leaderboard-container">
 <p class="page-header" *ngIf="selectedPlayer === -1">LEADER BOARD</p>
-<p class="page-header" *ngIf="selectedPlayer != -1">Player 1, Winning Percentage: 50%, Rock Percentage: 50%, Paper Percentage: 25%, Scissors Percentage: 25%</p>
+<p class="page-header" *ngIf="selectedPlayer != -1">{{ getPlayerDescriptionHeader() }}</p>
 <style type="text/css">
   .tg  {border-collapse:collapse;border-spacing:0;}
   .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}

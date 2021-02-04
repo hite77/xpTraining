@@ -178,7 +178,8 @@ describe('LeaderboardComponent', () => {
     expect(header.innerHTML).toBe('LEADER BOARD');
   });
 
-  it('leaderboard header contains: Player 1, Winning Percentage: 50%, Rock Percentage: 50%, Paper Percentage: 25%, Scissors Percentage: 25%', () => {
+  it('leaderboard header contains: Player 1, Winning Percentage: 50%, Rock Percentage: 50%, Paper Percentage: 25%, Scissors ' +
+      'Percentage: 25%', () => {
     expect(component).toBeTruthy();
     stubRpsGateway.playerStats[0].winPercentage = 50;
     stubRpsGateway.playerStats[0].rockPercent = 50;
@@ -192,6 +193,25 @@ describe('LeaderboardComponent', () => {
       const header = fixture.nativeElement.querySelector('.page-header');
       expect(header.innerHTML).toBe('Player 1, Winning Percentage: 50%, Rock Percentage: 50%, ' +
           'Paper Percentage: 25%, Scissors Percentage: 25%');
+    });
+  });
+
+  it('leaderboard header contains: Player 2, Winning Percentage: 55%, Rock Percentage: 75%, Paper Percentage: 33%, Scissors ' +
+      'Percentage: 42%', () => {
+    expect(component).toBeTruthy();
+    stubRpsGateway.playerStats[1].winPercentage = 55;
+    stubRpsGateway.playerStats[1].rockPercent = 75;
+    stubRpsGateway.playerStats[1].paperPercent = 33;
+    stubRpsGateway.playerStats[1].scissorsPercent = 42;
+    const player = fixture.nativeElement.querySelectorAll('button');
+    console.log('Button', player);
+    player[1].click();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const header = fixture.nativeElement.querySelector('.page-header');
+      expect(header.innerHTML).toBe('Player 2, Winning Percentage: 55%, Rock Percentage: 75%, ' +
+          'Paper Percentage: 33%, Scissors Percentage: 42%');
     });
   });
 });
