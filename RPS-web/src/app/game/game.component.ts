@@ -71,9 +71,11 @@ export class GameComponent implements OnInit, OnDestroy {
     this.gameGateway.playGame(this.rankedGameRequest).pipe(takeUntil(this._destroy)).subscribe(gameResult => {
      if (gameResult.outcome === Outcome.P1Wins) {
         this.mostRecentOutcome = gameResult.player1.name + ' Wins';
-      } else {
+      } else if (gameResult.outcome === Outcome.P2Wins) {
         this.mostRecentOutcome = gameResult.player2.name + ' Wins';
-      }
+      } else {
+        this.mostRecentOutcome = 'The game is a Tie';
+     }
     });
   }
 
