@@ -83,6 +83,17 @@ describe('GameComponent', () => {
     element.dispatchEvent(new Event('input'));
   }
 
+  function getOptionText(id: string, optionIndex: string): string {
+    const debugElement = fixture.debugElement.query(By.css(`#${id}`));
+    const matSelect = debugElement.query(By.css('.mat-select-trigger')).nativeElement;
+    matSelect.click();
+    fixture.detectChanges();
+    const matOption = debugElement.queryAll(By.css('.mat-option'))[optionIndex].nativeElement;
+    matOption.click();
+    fixture.detectChanges();
+    return matOption.textContent;
+  }
+
   it('should toggle between ranked and practice game', () => {
     expect(component.isPracticeGame).toBe(false);
 
@@ -99,6 +110,7 @@ describe('GameComponent', () => {
     expect(fixture.nativeElement.querySelector('#player2Name')).toBeNull();
     expect(fixture.nativeElement.querySelector('#player2Throw')).toBeTruthy();
   });
+
   it('should process a ranked game through the gateway',  async(() => {
     component.ngOnInit();
     component.isPracticeGame = false;
@@ -123,6 +135,41 @@ describe('GameComponent', () => {
       expect(stubRpsGateway.playGameCalledWith.player2.id).toBe(3);
       expect(fixture.nativeElement.querySelector('#game-outcome').innerHTML).toContain('Player 3 Wins');
     });
+  }));
+
+  it('should process a ranked game using lizard spock through the gateway',  async(() => {
+    component.ngOnInit();
+    component.isPracticeGame = false;
+    stubRpsGateway.stubOutcome = Outcome.P1Wins;
+    fixture.detectChanges();
+    triggerMatSelect('player1Throw', 4); // lizard wins
+    triggerMatSelect('player1Name', 0);
+
+    triggerMatSelect('player2Throw', 5); // spock
+    triggerMatSelect('player2Name', 2);
+
+    const submit = fixture.nativeElement.querySelector('#submit-ranked');
+    submit.click();
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(stubRpsGateway.playGameCalledWith.player1Throw).toBe('LIZARD');
+      expect(stubRpsGateway.playGameCalledWith.player1.name).toBe('Player 1');
+      expect(stubRpsGateway.playGameCalledWith.player1.id).toBe(1);
+
+      expect(stubRpsGateway.playGameCalledWith.player2Throw).toBe('SPOCK');
+      expect(stubRpsGateway.playGameCalledWith.player2.name).toBe('Player 3');
+      expect(stubRpsGateway.playGameCalledWith.player2.id).toBe(3);
+      expect(fixture.nativeElement.querySelector('#game-outcome').innerHTML).toContain('Player 1 Wins');
+    });
+  }));
+
+  it('Text for throws is correctly displayed', async( () => {
+    expect(getOptionText('player1Throw', '1').trim()).toBe('Rock');
+    expect(getOptionText('player1Throw', '2').trim()).toBe('Paper');
+    expect(getOptionText('player1Throw', '3').trim()).toBe('Scissors');
+    expect(getOptionText('player1Throw', '4').trim()).toBe('Lizard');
+    expect(getOptionText('player1Throw', '5').trim()).toBe('Spock');
   }));
 
   it('should process a practice game through the gateway', async(() => {

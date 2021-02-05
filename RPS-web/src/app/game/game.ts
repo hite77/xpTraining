@@ -8,12 +8,16 @@ export enum Throw {
   Rock = 'ROCK',
   Paper = 'PAPER',
   Scissors = 'SCISSORS',
+  Lizard = 'LIZARD',
+  Spock = 'SPOCK'
 }
 
 export const throwLocalization = {
   [Throw.Rock]: 'Rock',
   [Throw.Paper]: 'Paper',
   [Throw.Scissors]: 'Scissors',
+  [Throw.Lizard]: 'Lizard',
+  [Throw.Spock]: 'Spock'
 };
 
 export enum Outcome {

@@ -1,5 +1,5 @@
 package com.rps.core;
 
 public enum Throw {
-    PAPER, ROCK, SCISSORS
+    PAPER, ROCK, SCISSORS, LIZARD, SPOCK
 }

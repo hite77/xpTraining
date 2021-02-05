@@ -12,8 +12,16 @@ public class RPS {
         }
 
         if(p1 == ROCK && p2 == PAPER
+                || p1 == ROCK && p2 == SPOCK
                 || p1 == PAPER && p2 == SCISSORS
-                || p1 == SCISSORS && p2 == ROCK) {
+                || p1 == PAPER && p2 == LIZARD
+                || p1 == SCISSORS && p2 == ROCK
+                || p1 == SCISSORS && p2 == SPOCK
+                || p1 == LIZARD && p2 == ROCK
+                || p1 == LIZARD && p2 == SCISSORS
+                || p1 == SPOCK && p2 == LIZARD
+                || p1 == SPOCK && p2 == PAPER
+        ) {
             return P2_WINS;
         }
 
