@@ -13,12 +13,15 @@ public class DefaultCreateGameResultUseCase implements CreateGameResultUseCase {
 
     @Override
     public GameResult execute(Request request) {
-        return gameResultRepository.save(
-                new GameResult(
-                        request.player1,
-                        request.player2,
-                        RPS.play( request.player1Throw, request.player2Throw),
-                        request.player1Throw, request.player2Throw, gameResultIdProvider.getId() )
-        );
+        if (request.player1.getId() != request.player2.getId()) {
+            return gameResultRepository.save(
+                    new GameResult(
+                            request.player1,
+                            request.player2,
+                            RPS.play( request.player1Throw, request.player2Throw),
+                            request.player1Throw, request.player2Throw, gameResultIdProvider.getId() )
+            );
+        }
+        return new GameResult(request.player1, request.player2, Outcome.INVALID, request.player1Throw, request.player2Throw, -1);
     }
 }
