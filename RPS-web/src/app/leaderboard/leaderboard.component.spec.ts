@@ -38,22 +38,22 @@ describe('LeaderboardComponent', () => {
 
   it('should create leaderboard with data', () => {
     expect(component).toBeTruthy();
-    let tableRows = fixture.nativeElement.querySelectorAll('tr');
+    const tableRows = fixture.nativeElement.querySelectorAll('tr');
     console.log( 'tableRows: ', tableRows );
     // Data rows
-    let row1 = tableRows[1];
+    const row1 = tableRows[1];
     expect(row1.cells[1].innerHTML).toBe('100');
     expect(row1.cells[2].innerHTML).toBe('10');
     expect(row1.cells[3].innerHTML).toBe('10');
     expect(row1.cells[4].innerHTML).toBe('0');
 
-    let row2 = tableRows[2];
+    const row2 = tableRows[2];
     expect(row2.cells[1].innerHTML).toBe('70');
     expect(row2.cells[2].innerHTML).toBe('10');
     expect(row2.cells[3].innerHTML).toBe('6');
     expect(row2.cells[4].innerHTML).toBe('2');
 
-    let row3 = tableRows[3];
+    const row3 = tableRows[3];
     expect(row3.cells[1].innerHTML).toBe('40');
     expect(row3.cells[2].innerHTML).toBe('10');
     expect(row3.cells[3].innerHTML).toBe('2');
@@ -64,8 +64,8 @@ describe('LeaderboardComponent', () => {
     player.click();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      let tableRows = fixture.nativeElement.querySelectorAll('tr');
-      let row1 = tableRows[1];
+      const tableRows = fixture.nativeElement.querySelectorAll('tr');
+      const row1 = tableRows[1];
       expect(row1.cells[0].innerHTML).toBe('Player 2');
       expect(row1.cells[1].innerHTML).toBe('WON');
       expect(row1.cells[2].innerHTML).toBe('ROCK');
@@ -76,10 +76,10 @@ describe('LeaderboardComponent', () => {
 
   it('should refresh leaderboard with data', () => {
     expect(component).toBeTruthy();
-    let tableRows = fixture.nativeElement.querySelectorAll('tr');
+    const tableRows = fixture.nativeElement.querySelectorAll('tr');
     console.log( 'tableRows: ', tableRows );
     // Data rows
-    let row1 = tableRows[1];
+    const row1 = tableRows[1];
     expect(row1.cells[1].innerHTML).toBe('100');
     expect(row1.cells[2].innerHTML).toBe('10');
     expect(row1.cells[3].innerHTML).toBe('10');
@@ -93,8 +93,8 @@ describe('LeaderboardComponent', () => {
     refresh.click();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      let tableRows = fixture.nativeElement.querySelectorAll('tr');
-      let row1 = tableRows[1];
+      const tableRows = fixture.nativeElement.querySelectorAll('tr');
+      const row1 = tableRows[1];
       expect(row1.cells[1].innerHTML).toBe('95');
       expect(row1.cells[3].innerHTML).toBe('11');
       expect(row1.cells[6].innerHTML).toBe('80');
@@ -235,6 +235,33 @@ describe('LeaderboardComponent', () => {
       expect(tableRows[1].cells[1].style.color).toBe('green');
       expect(tableRows[2].cells[1].style.color).toBe('red');
       expect(tableRows[3].cells[1].style.color).toBe('lightblue');
+    });
+  });
+
+  it('value outside color ranges returns blank style string', () => {
+    expect(component.colorForPercent(50)).toBe('');
+  });
+
+  it('Percent throws are color coded to indicate patterns', () => {
+    expect(component).toBeTruthy();
+
+    stubRpsGateway.playerStats[0].rockPercent = 85;
+    stubRpsGateway.playerStats[0].paperPercent = 70;
+    stubRpsGateway.playerStats[0].scissorsPercent = 15;
+    stubRpsGateway.playerStats[1].rockPercent = 50;
+    stubRpsGateway.playerStats[1].scissorsPercent = 30;
+
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      const tableRows = fixture.nativeElement.querySelectorAll('tr');
+
+      expect(tableRows[1].cells[6].style.color).toBe('red');
+      expect(tableRows[1].cells[7].style.color).toBe('orange');
+      expect(tableRows[1].cells[8].style.color).toBe('blue');
+      expect(tableRows[2].cells[8].style.color).toBe('lightblue');
+      expect(tableRows[2].cells[6].innerHTML).toBe('50');
+      expect(tableRows[2].cells[6].style.color).toBe('');
     });
   });
 });

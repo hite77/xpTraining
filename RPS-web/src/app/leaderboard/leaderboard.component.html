@@ -30,9 +30,9 @@
           <td>{{playerStat.gamesWon}}</td>
           <td>{{playerStat.gamesLost}}</td>
           <td>{{playerStat.gamesTied}}</td>
-          <td>{{playerStat.rockPercent}}</td>
-          <td>{{playerStat.paperPercent}}</td>
-          <td>{{playerStat.scissorsPercent}}</td>
+          <td [style.color]='colorForPercent(playerStat.rockPercent)'>{{playerStat.rockPercent}}</td>
+          <td [style.color]='colorForPercent(playerStat.paperPercent)'>{{playerStat.paperPercent}}</td>
+          <td [style.color]='colorForPercent(playerStat.scissorsPercent)'>{{playerStat.scissorsPercent}}</td>
         </tr>
       </ng-container>
       

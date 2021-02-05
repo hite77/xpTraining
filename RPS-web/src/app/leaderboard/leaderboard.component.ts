@@ -76,4 +76,17 @@ export class LeaderboardComponent implements OnInit {
     }
     return 'not found';
   }
+
+  colorForPercent(percent: number): string {
+    if (percent >= 85) {
+      return 'red';
+    } else if (percent >= 70) {
+      return 'orange';
+    } else if ((percent > 15) && (percent <= 30)) {
+      return 'lightblue';
+    } else if (percent <= 15) {
+      return 'blue';
+    }
+    return '';
+  }
 }
