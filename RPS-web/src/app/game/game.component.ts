@@ -1,10 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Outcome, Player, Throw, throwLocalization} from './game';
 import {GameGateway, PlayGameRequest, PlayPracticeGameRequest} from './game.gateway';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
-
 
 @Component({
   selector: 'app-game',
@@ -12,7 +11,7 @@ import {Subject} from 'rxjs';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit, OnDestroy {
-  
+
   gameResult: string;
   throwTypes: Throw[] = Object.keys(Throw).map(value => Throw[value]);
   throwLocalization = throwLocalization;
@@ -29,6 +28,13 @@ export class GameComponent implements OnInit, OnDestroy {
 
   constructor(private gameGateway: GameGateway, private fb: FormBuilder) {
 
+  }
+
+  playerIsNotPlayingSelf(c: AbstractControl) {
+    if (c.get('selectedPlayer1').value === null) {
+      return null;
+    }
+    return (c.get('selectedPlayer1').value !== c.get('selectedPlayer2').value) ? null : {match: true};
   }
 
   ngOnDestroy(): void {
@@ -52,14 +58,14 @@ export class GameComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.gameForm = this.fb.group({
-      selectedPlayer1:[null],
+      selectedPlayer1: [null],
       selectedPlayer2: [null],
       player1Throw: [null, [Validators.required]],
       player2Throw: [null, [Validators.required]]
-    })
+    }, {validator: this.playerIsNotPlayingSelf});
   }
 
-  getValue( name ){
+  getValue( name ) {
     return this.gameForm.get( name ).value;
   }
 
@@ -99,8 +105,7 @@ export class GameComponent implements OnInit, OnDestroy {
       // console.log("Real");
       this.gameForm.get('selectedPlayer1').setValidators([Validators.required]);
       this.gameForm.get('selectedPlayer2').setValidators([Validators.required]);
-    }
-    else {
+    } else {
       // console.log("Practice");
       this.gameForm.get('selectedPlayer1').clearValidators();
       this.gameForm.get('selectedPlayer1').updateValueAndValidity();
@@ -112,11 +117,11 @@ export class GameComponent implements OnInit, OnDestroy {
 
   getPlayers() {
     this.gameGateway.getPlayers().subscribe(returnedPlayers => {
-      for(let i = 0; i < returnedPlayers.length; i++) {
+      for (let i = 0; i < returnedPlayers.length; i++) {
         this.playerList.push(returnedPlayers[i]);
       }
-      this.playerList = this.playerList.sort((a,b) => a.name.localeCompare(b.name));
+      this.playerList = this.playerList.sort((a, b) => a.name.localeCompare(b.name));
       console.log('got players', this.playerList);
-    })
+    });
   }
 }

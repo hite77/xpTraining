@@ -201,6 +201,14 @@ describe('GameComponent', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelector('#game-outcome').innerHTML).toContain('The game is a Tie');
     });
+  });
 
+  it('should disable submit button when same player is selected twice', () => {
+    const submitRanked  = fixture.nativeElement.querySelector('#submit-ranked');
+    triggerMatSelect('player1Name', 0);
+    triggerMatSelect('player2Name', 0);
+    triggerMatSelect('player1Throw', 3);
+    triggerMatSelect('player2Throw', 1);
+    expect(submitRanked.disabled).toBeTruthy();
   });
 });
