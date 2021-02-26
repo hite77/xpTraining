@@ -66,9 +66,13 @@ export class PlayerStat {
     public rocksThrown: number,
     public papersThrown: number,
     public scissorsThrown: number,
+    public lizardsThrown: number,
+    public spocksThrown: number,
     public rockPercent: number,
     public paperPercent: number,
-    public scissorsPercent: number
+    public scissorsPercent: number,
+    public lizardPercent: number,
+    public spockPercent: number
   ) {}
 }
 

@@ -9,12 +9,14 @@ public class PlayerStat {
     private int rocksThrown;
     private int papersThrown;
     private int scissorsThrown;
+    private int lizardsThrown;
+    private int spocksThrown;
 
     public PlayerStat (){
         player = null;
     }
 
-    public PlayerStat(Player player, int gamesWon, int gamesLost, int gamesTied, int rocksThrown, int papersThrown, int scissorsThrown) {
+    public PlayerStat(Player player, int gamesWon, int gamesLost, int gamesTied, int rocksThrown, int papersThrown, int scissorsThrown, int lizardsThrown, int spocksThrown) {
         this.player = player;
         this.gamesWon = gamesWon;
         this.gamesLost = gamesLost;
@@ -22,6 +24,8 @@ public class PlayerStat {
         this.rocksThrown = rocksThrown;
         this.papersThrown = papersThrown;
         this.scissorsThrown = scissorsThrown;
+        this.lizardsThrown = lizardsThrown;
+        this.spocksThrown = spocksThrown;
     }
 
 
@@ -41,6 +45,9 @@ public class PlayerStat {
         return 100.0 * scissorsThrown / getGamesPlayed();
     }
 
+    public Double getLizardPercent() { return 100.0 * lizardsThrown / getGamesPlayed(); }
+
+    public Double getSpockPercent() { return 100.0 * spocksThrown / getGamesPlayed(); }
 
     public long getGamesPlayed(){
         return gamesWon + gamesLost + gamesTied;

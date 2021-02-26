@@ -37,11 +37,9 @@ export class LeaderboardComponent implements OnInit {
     this.playerStats = [];
     this.gameGateway.getPlayerStats().subscribe(returnedPlayerStats => {
       for (let i = 0; i < returnedPlayerStats.length; i++) {
-        console.log(returnedPlayerStats[i].winPercentage);
         this.playerStats.push(this.roundToOneDecimal(returnedPlayerStats[i]));
       }
       // this.playerList = this.playerList.sort((a,b) => a.name.localeCompare(b.name));
-      console.log('got player Stats', this.playerStats);
     });
   }
 

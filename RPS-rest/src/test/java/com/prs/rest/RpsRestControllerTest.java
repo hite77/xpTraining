@@ -120,9 +120,9 @@ public class RpsRestControllerTest {
         Player player3 = new Player("player3", 23);
         Player player4 = new Player("player4", 24);
         stubbedPlayerStatsUseCaseResponse = Config.stubGetPlayerStatsUseCase.stubbedGetPlayerStatsUseCaseResponse;
-        stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player1, 10, 0, 0, 5, 3, 2));
-        stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player2, 6, 2, 2, 2, 4, 4));
-        stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player3, 2, 4, 4, 3, 3, 4));
+        stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player1, 10, 0, 0, 5, 3, 2, 0, 0));
+        stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player2, 6, 2, 2, 2, 4, 4, 0, 0));
+        stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player3, 2, 4, 4, 3, 3, 4, 0, 0));
         stubbedGetPlayerGameRecordsUseCaseResponse = Config.stubGetPlayerGameRecordsUseCase.stubbedGetPlayerGameRecordsUseCase;
         stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 1, player1, player2, WON, ROCK, SCISSORS ));
         stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 2, player1, player3, LOSS, ROCK, PAPER ));
