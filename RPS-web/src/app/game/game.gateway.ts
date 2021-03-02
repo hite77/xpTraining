@@ -29,7 +29,7 @@ export class PlayGameRequest {
     public player1Throw: Throw,
     public player2Throw: Throw
   ) {}
-  
+
 
 }
 

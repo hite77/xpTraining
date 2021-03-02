@@ -121,6 +121,14 @@ describe('LeaderboardComponent', () => {
     stubRpsGateway.playerStats[1].scissorsPercent = 33.4444;
     stubRpsGateway.playerStats[2].scissorsPercent = 44.4444;
 
+    stubRpsGateway.playerStats[0].lizardPercent = 22.5555;
+    stubRpsGateway.playerStats[1].lizardPercent = 33.5555;
+    stubRpsGateway.playerStats[2].lizardPercent = 44.5555;
+
+    stubRpsGateway.playerStats[0].spockPercent = 22.6666;
+    stubRpsGateway.playerStats[1].spockPercent = 33.6666;
+    stubRpsGateway.playerStats[2].spockPercent = 44.6666;
+
     const refresh = fixture.nativeElement.querySelector('button.refresh');
     console.log('Button', refresh);
     refresh.click();
@@ -133,22 +141,28 @@ describe('LeaderboardComponent', () => {
       expect(row1.cells[6].innerHTML).toBe('22.2');
       expect(row1.cells[7].innerHTML).toBe('22.3');
       expect(row1.cells[8].innerHTML).toBe('22.4');
+      expect(row1.cells[9].innerHTML).toBe('22.6');
+      expect(row1.cells[10].innerHTML).toBe('22.7');
 
       const row2 = tableRows[2];
       expect(row2.cells[1].innerHTML).toBe('33.1');
       expect(row2.cells[6].innerHTML).toBe('33.2');
       expect(row2.cells[7].innerHTML).toBe('33.3');
       expect(row2.cells[8].innerHTML).toBe('33.4');
+      expect(row2.cells[9].innerHTML).toBe('33.6');
+      expect(row2.cells[10].innerHTML).toBe('33.7');
 
       const row3 = tableRows[3];
       expect(row3.cells[1].innerHTML).toBe('44.1');
       expect(row3.cells[6].innerHTML).toBe('44.2');
       expect(row3.cells[7].innerHTML).toBe('44.3');
       expect(row3.cells[8].innerHTML).toBe('44.4');
+      expect(row3.cells[9].innerHTML).toBe('44.6');
+      expect(row3.cells[10].innerHTML).toBe('44.7');
   });
   });
 
-  it('leaderboard percentages should only show one decimal place', () => {
+  it('leaderboard should show games tied', () => {
     expect(component).toBeTruthy();
 
     stubRpsGateway.playerStats[0].gamesTied = 1;
@@ -179,31 +193,15 @@ describe('LeaderboardComponent', () => {
     expect(header.innerHTML).toBe('LEADER BOARD');
   });
 
-  it('leaderboard header contains: Player 1, Winning Percentage: 50%, Rock Percentage: 50%, Paper Percentage: 25%, Scissors ' +
-      'Percentage: 25%', () => {
-    expect(component).toBeTruthy();
-    stubRpsGateway.playerStats[0].winPercentage = 50;
-    stubRpsGateway.playerStats[0].rockPercent = 50;
-    stubRpsGateway.playerStats[0].paperPercent = 25;
-    stubRpsGateway.playerStats[0].scissorsPercent = 25;
-    const player = fixture.nativeElement.querySelector('button');
-    console.log('Button', player);
-    player.click();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      const header = fixture.nativeElement.querySelector('.page-header');
-      expect(header.innerHTML).toBe('Player 1, Winning Percentage: 50%, Rock Percentage: 50%, ' +
-          'Paper Percentage: 25%, Scissors Percentage: 25%');
-    });
-  });
-
-  it('leaderboard header contains: Player 2, Winning Percentage: 55%, Rock Percentage: 75%, Paper Percentage: 33%, Scissors ' +
-      'Percentage: 42%', () => {
+  it('leaderboard header contains correct percentages', () => {
     expect(component).toBeTruthy();
     stubRpsGateway.playerStats[1].winPercentage = 55;
     stubRpsGateway.playerStats[1].rockPercent = 75;
     stubRpsGateway.playerStats[1].paperPercent = 33;
     stubRpsGateway.playerStats[1].scissorsPercent = 42;
+    stubRpsGateway.playerStats[1].lizardPercent = 11;
+    stubRpsGateway.playerStats[1].spockPercent = 22;
+
     const player = fixture.nativeElement.querySelectorAll('button');
     console.log('Button', player);
     player[1].click();
@@ -212,7 +210,7 @@ describe('LeaderboardComponent', () => {
       fixture.detectChanges();
       const header = fixture.nativeElement.querySelector('.page-header');
       expect(header.innerHTML).toBe('Player 2, Winning Percentage: 55%, Rock Percentage: 75%, ' +
-          'Paper Percentage: 33%, Scissors Percentage: 42%');
+          'Paper Percentage: 33%, Scissors Percentage: 42%, Lizard Percentage: 11%, Spock Percentage: 22%');
     });
   });
 

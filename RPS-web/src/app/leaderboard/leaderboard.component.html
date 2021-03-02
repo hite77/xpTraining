@@ -21,6 +21,8 @@
         <th class="tg-w3z3">Rocks Thrown (%)</th>
         <th class="tg-w3z3">Papers Thrown (%)</th>
         <th class="tg-w3z3">Scissors Thrown (%)</th>
+        <th class="tg-w3z3">Lizards Thrown (%)</th>
+        <th class="tg-w3z3">Spocks Thrown (%)</th>
       </tr>
       <ng-container >
         <tr *ngFor="let playerStat of playerStats"  >
@@ -33,6 +35,8 @@
           <td [style.color]='colorForPercent(playerStat.rockPercent)'>{{playerStat.rockPercent}}</td>
           <td [style.color]='colorForPercent(playerStat.paperPercent)'>{{playerStat.paperPercent}}</td>
           <td [style.color]='colorForPercent(playerStat.scissorsPercent)'>{{playerStat.scissorsPercent}}</td>
+          <td [style.color]='colorForPercent(playerStat.lizardPercent)'>{{playerStat.lizardPercent}}</td>
+          <td [style.color]='colorForPercent(playerStat.spockPercent)'>{{playerStat.spockPercent}}</td>
         </tr>
       </ng-container>
       

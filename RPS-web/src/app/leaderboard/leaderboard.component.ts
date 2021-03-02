@@ -48,6 +48,8 @@ export class LeaderboardComponent implements OnInit {
     playerStat.rockPercent = Math.round(playerStat.rockPercent * 10) / 10;
     playerStat.paperPercent = Math.round(playerStat.paperPercent * 10) / 10;
     playerStat.scissorsPercent = Math.round(playerStat.scissorsPercent * 10) / 10;
+    playerStat.lizardPercent = Math.round(playerStat.lizardPercent * 10) / 10;
+    playerStat.spockPercent = Math.round(playerStat.spockPercent * 10) / 10;
     return playerStat;
   }
 
@@ -69,7 +71,9 @@ export class LeaderboardComponent implements OnInit {
             ', Winning Percentage: ' + playerStat.winPercentage +
             '%, Rock Percentage: ' + playerStat.rockPercent +
             '%, Paper Percentage: ' + playerStat.paperPercent +
-            '%, Scissors Percentage: ' + playerStat.scissorsPercent + '%';
+            '%, Scissors Percentage: ' + playerStat.scissorsPercent +
+            '%, Lizard Percentage: ' + playerStat.lizardPercent +
+            '%, Spock Percentage: ' + playerStat.spockPercent + '%';
       }
     }
     return 'not found';
