@@ -124,10 +124,10 @@ public class RpsRestControllerTest {
         stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player2, 6, 2, 2, 2, 4, 4, 0, 0));
         stubbedPlayerStatsUseCaseResponse.add( new PlayerStat( player3, 2, 4, 4, 3, 3, 4, 0, 0));
         stubbedGetPlayerGameRecordsUseCaseResponse = Config.stubGetPlayerGameRecordsUseCase.stubbedGetPlayerGameRecordsUseCase;
-        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 1, player1, player2, WON, ROCK, SCISSORS ));
-        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 2, player1, player3, LOSS, ROCK, PAPER ));
-        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 3, player1, player4, GameRecord.Result.TIE, ROCK, ROCK ));
-        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 4, player1, player2, WON, SCISSORS, PAPER ));
+        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 1, player1, player2, WON, ROCK, SCISSORS, "First" ));
+        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 2, player1, player3, LOSS, ROCK, PAPER, "Second" ));
+        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 3, player1, player4, GameRecord.Result.TIE, ROCK, ROCK, "Third" ));
+        stubbedGetPlayerGameRecordsUseCaseResponse.add( new GameRecord( 4, player1, player2, WON, SCISSORS, PAPER, "Fourth" ));
 
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
@@ -249,7 +249,8 @@ public class RpsRestControllerTest {
                 .andExpect(jsonPath("$[0].opponent.id",
                         is(Config.stubGetPlayerGameRecordsUseCase.stubbedGetPlayerGameRecordsUseCase.get(0).getOpponent().getId() ) ))
                 .andExpect(jsonPath("$[0].opponent.name",
-                        is(Config.stubGetPlayerGameRecordsUseCase.stubbedGetPlayerGameRecordsUseCase.get(0).getOpponent().getName() ) ));
+                        is(Config.stubGetPlayerGameRecordsUseCase.stubbedGetPlayerGameRecordsUseCase.get(0).getOpponent().getName() ) ))
+                .andExpect(jsonPath("$[0].gameTime", is("First")));
         /*
                 .andExpect(jsonPath("$[0].result",
                         is(Config.stubGetPlayerGameRecordsUseCase.stubbedGetPlayerGameRecordsUseCase.get(0).getResult() ) ))

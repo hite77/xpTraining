@@ -70,7 +70,7 @@ describe('LeaderboardComponent', () => {
       expect(row1.cells[1].innerHTML).toBe('WON');
       expect(row1.cells[2].innerHTML).toBe('ROCK');
       expect(row1.cells[3].innerHTML).toBe('SCISSORS');
-
+      expect(row1.cells[4].innerHTML).toBe('12/02/2013 15:30');
     });
   });
 

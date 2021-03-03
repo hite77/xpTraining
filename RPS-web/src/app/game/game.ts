@@ -76,7 +76,6 @@ export class PlayerStat {
   ) {}
 }
 
-
 export class GameRecord {
   constructor(
     public gameResultId: number,
@@ -84,6 +83,7 @@ export class GameRecord {
     public opponent: Player,
     public result: Result,
     public playerThrow: Throw,
-    public opponentThrow: Throw
+    public opponentThrow: Throw,
+    public gameTime: string
   ) {}
 }

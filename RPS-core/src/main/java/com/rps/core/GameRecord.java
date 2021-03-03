@@ -8,21 +8,24 @@ public class GameRecord {
     private Result result;
     private Throw playerThrow;
     private Throw opponentThrow;
+    private String gameTime;
 
     public static enum Result { WON, LOSS, TIE }
 
-    public GameRecord(int gameResultId, Player player, Player opponent, Result result, Throw playerThrow, Throw opponentThrow) {
+    public GameRecord(int gameResultId, Player player, Player opponent, Result result, Throw playerThrow, Throw opponentThrow, String gameTime) {
         this.gameResultId = gameResultId;
         this.player = player;
         this.opponent = opponent;
         this.result = result;
         this.playerThrow = playerThrow;
         this.opponentThrow = opponentThrow;
+        this.gameTime = gameTime;
     }
 
     public GameRecord(int playerId, GameResult gameResult ){
 
         gameResultId = gameResult.getGameResultId();
+        gameTime = gameResult.getGameTime();
 
         if( playerId == gameResult.getPlayer1().getId() ){
             player = gameResult.getPlayer1();
@@ -76,4 +79,6 @@ public class GameRecord {
     public Throw getOpponentThrow() {
         return opponentThrow;
     }
+
+    public String getGameTime() { return gameTime; }
 }

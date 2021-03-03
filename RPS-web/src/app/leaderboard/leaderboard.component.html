@@ -51,6 +51,7 @@
       <th class="tg-w3z3">Result</th>
       <th class="tg-w3z3">Player Throw</th>
       <th class="tg-w3z3">Opponent Throw</th>
+      <th class="tg-w3z3">Time Played</th>
     </tr>
     <ng-container >
       <tr *ngFor="let gameRecord of gameRecords"  >
@@ -60,6 +61,7 @@
         <td *ngIf="gameRecord.result === 'TIE'" style="color:lightblue">{{gameRecord.result}}</td>
         <td>{{gameRecord.playerThrow}}</td>
         <td>{{gameRecord.opponentThrow}}</td>
+        <td>{{gameRecord.gameTime}}</td>
       </tr>
     </ng-container>
     

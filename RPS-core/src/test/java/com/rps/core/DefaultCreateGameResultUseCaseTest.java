@@ -2,6 +2,10 @@ package com.rps.core;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
+
+import java.time.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,24 +24,32 @@ public class DefaultCreateGameResultUseCaseTest {
 
     @Test
     public void execute_persistsTheResult(){
-        Player player1 = new Player( "Jane Doe", 1);
-        Player player2 = new Player("John Doe", 2);
+        LocalDateTime defaultLocalDateTime = LocalDateTime.of(2014, 12, 22, 10, 15);
 
-        CreateGameResultUseCase.Request request = new CreateGameResultUseCase.Request( );
-        request.player1 = player1;
-        request.player2 = player2;
-        request.player1Throw = Throw.ROCK;
-        request.player2Throw = Throw.SCISSORS;
+        try (MockedStatic<LocalDateTime> mockedLocalDateTime = Mockito.mockStatic(LocalDateTime.class)) {
+            mockedLocalDateTime.when(LocalDateTime::now).thenReturn(defaultLocalDateTime);
 
-        GameResult gameResult = defaultCreateGameResultUseCase.execute( request );
+            Player player1 = new Player("Jane Doe", 1);
+            Player player2 = new Player("John Doe", 2);
 
-        assertEquals( gameResult.getOutcome(), Outcome.P1_WINS );
+            CreateGameResultUseCase.Request request = new CreateGameResultUseCase.Request();
+            request.player1 = player1;
+            request.player2 = player2;
+            request.player1Throw = Throw.ROCK;
+            request.player2Throw = Throw.SCISSORS;
 
-        GameResult repoGameResult = gameResultRepository.findById( gameResult.getGameResultId() );
-        assertEquals( repoGameResult.getPlayer1(), player1 );
-        assertEquals( repoGameResult.getPlayer2(), player2 );
-        assertEquals( repoGameResult.getOutcome(), Outcome.P1_WINS );
-        assertEquals( repoGameResult.getGameResultId(), gameResult.getGameResultId() );
+            GameResult gameResult = defaultCreateGameResultUseCase.execute(request);
+
+            assertEquals(gameResult.getOutcome(), Outcome.P1_WINS);
+
+            GameResult repoGameResult = gameResultRepository.findById(gameResult.getGameResultId());
+            assertEquals(repoGameResult.getPlayer1(), player1);
+            assertEquals(repoGameResult.getPlayer2(), player2);
+            assertEquals(repoGameResult.getOutcome(), Outcome.P1_WINS);
+            assertEquals(repoGameResult.getGameResultId(), gameResult.getGameResultId());
+
+            assertEquals("12/22/2014 10:15", repoGameResult.getGameTime());
+        }
     }
 
     @Test

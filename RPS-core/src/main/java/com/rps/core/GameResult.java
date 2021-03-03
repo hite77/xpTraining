@@ -8,14 +8,16 @@ public class GameResult {
     private Throw player1Throw;
     private Throw player2Throw;
     private int gameResultId;
+    private String gameTime;
 
-    public GameResult(Player player1, Player player2, Outcome outcome, Throw player1Throw, Throw player2Throw, int gameResultId) {
+    public GameResult(Player player1, Player player2, Outcome outcome, Throw player1Throw, Throw player2Throw, int gameResultId, String gameTime) {
         this.player1 = player1;
         this.player2 = player2;
         this.outcome = outcome;
         this.player1Throw = player1Throw;
         this.player2Throw = player2Throw;
         this.gameResultId = gameResultId;
+        this.gameTime = gameTime;
     }
 
     public GameResult(GameResult gameResult) {
@@ -25,6 +27,7 @@ public class GameResult {
         this.player1Throw = gameResult.player1Throw;
         this.player2Throw = gameResult.player2Throw;
         this.gameResultId = gameResult.gameResultId;
+        this.gameTime = gameResult.gameTime;
     }
 
     public Player getPlayer1() {
@@ -42,6 +45,8 @@ public class GameResult {
     public int getGameResultId() {
         return gameResultId;
     }
+
+    public String getGameTime() { return gameTime; }
 
     public void setPlayer1(Player player1) {
         this.player1 = player1;
@@ -83,7 +88,8 @@ public class GameResult {
         return getPlayer1().equals( that.getPlayer1()) &&
                 getPlayer2().equals( that.getPlayer2()) &&
                 getOutcome() == that.getOutcome() &&
-                getGameResultId() == that.getGameResultId();
+                getGameResultId() == that.getGameResultId() &&
+                getGameTime().equals(that.getGameTime());
     }
 
     @Override
@@ -98,6 +104,7 @@ public class GameResult {
                 ", player2=" + player2 +
                 ", outcome=" + outcome +
                 ", gameResultId=" + gameResultId +
+                ", gameTime=" + gameTime +
                 '}';
     }
 }
