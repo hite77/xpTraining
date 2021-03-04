@@ -7,9 +7,12 @@ import java.util.stream.Stream;
 public class DefaultGetPlayerStatsUseCase implements GetPlayerStatsUseCase {
 
     private GameResultRepository gameResultRepository;
+    private DefaultGetPlayersUseCase defaultGetPlayersUseCase;
 
-    public DefaultGetPlayerStatsUseCase(GameResultRepository gameResultRepository) {
+
+    public DefaultGetPlayerStatsUseCase(GameResultRepository gameResultRepository, DefaultGetPlayersUseCase defaultGetPlayersUseCase) {
         this.gameResultRepository = gameResultRepository;
+        this.defaultGetPlayersUseCase = defaultGetPlayersUseCase;
     }
 
     @Override
@@ -17,7 +20,8 @@ public class DefaultGetPlayerStatsUseCase implements GetPlayerStatsUseCase {
 
         Comparator<PlayerStat> reversePlayerStatComparator = (h1, h2) -> h2.getWinPercentage().compareTo(h1.getWinPercentage());
 
-        return gameResultRepository.findAll().stream()
+        List<PlayerStat> playerStats =
+                gameResultRepository.findAll().stream()
                 .flatMap( gr -> Stream.of(  new GameRecord( gr.getPlayer1().getId(), gr),
                                             new GameRecord( gr.getPlayer2().getId(), gr)) )
                 .collect(Collectors.groupingBy(GameRecord::getPlayer))
@@ -37,6 +41,13 @@ public class DefaultGetPlayerStatsUseCase implements GetPlayerStatsUseCase {
                 .collect( Collectors.toList())
                 ;
 
+        List<Player> players = defaultGetPlayersUseCase.execute();
+        List<Player> playersWithStats = new ArrayList<>();
+        playerStats.stream().forEach(playerStat -> playersWithStats.add(playerStat.getPlayer()));
+
+        players.stream().filter(player -> !playersWithStats.contains(player)).collect(Collectors.toList()).forEach(player -> playerStats.add(new PlayerStat(player)));
+
+        return playerStats;
     }
 
 }

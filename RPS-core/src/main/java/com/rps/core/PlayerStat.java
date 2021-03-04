@@ -16,6 +16,18 @@ public class PlayerStat {
         player = null;
     }
 
+    public PlayerStat (Player player) {
+        this.player = player;
+        this.gamesWon = 0;
+        this.gamesLost = 0;
+        this.gamesTied = 0;
+        this.rocksThrown = 0;
+        this.papersThrown = 0;
+        this.scissorsThrown = 0;
+        this.lizardsThrown = 0;
+        this.spocksThrown = 0;
+    }
+
     public PlayerStat(Player player, int gamesWon, int gamesLost, int gamesTied, int rocksThrown, int papersThrown, int scissorsThrown, int lizardsThrown, int spocksThrown) {
         this.player = player;
         this.gamesWon = gamesWon;
@@ -30,24 +42,38 @@ public class PlayerStat {
 
 
     public Double getWinPercentage(){
+        if (getGamesPlayed() == 0) {
+            return 0.0;
+        }
         return (gamesWon + (gamesTied * .5)) / getGamesPlayed() * 100;
     }
 
     public Double getRockPercent(){
-        return 100.0 * rocksThrown / getGamesPlayed();
+        return getPercentage(rocksThrown);
     }
 
     public Double getPaperPercent(){
-        return 100.0 * papersThrown / getGamesPlayed();
+        return getPercentage(papersThrown);
     }
 
     public Double getScissorsPercent(){
-        return 100.0 * scissorsThrown / getGamesPlayed();
+        return getPercentage(scissorsThrown);
     }
 
-    public Double getLizardPercent() { return 100.0 * lizardsThrown / getGamesPlayed(); }
+    public Double getLizardPercent() {
+        return getPercentage(lizardsThrown);
+    }
 
-    public Double getSpockPercent() { return 100.0 * spocksThrown / getGamesPlayed(); }
+    public Double getSpockPercent() {
+        return getPercentage(spocksThrown);
+    }
+
+    private Double getPercentage(int typeOfThrow) {
+        if (getGamesPlayed() == 0) {
+            return 0.0;
+        }
+        return 100.0 * typeOfThrow / getGamesPlayed();
+    }
 
     public long getGamesPlayed(){
         return gamesWon + gamesLost + gamesTied;
